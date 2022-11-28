@@ -28,4 +28,42 @@ public class BonuseServiceTest {
 
         Assertions.assertEquals(expected, actual);
     }
+
+    @Test
+    void shouldCalculateForUnRegisteredAndUnderLimit() {
+        BonusService service = new BonusService();
+        long amount = 10_000;
+        boolean registered = false;
+        long expected = 100;
+
+        long actual = service.calculate(amount, registered);
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldCalculateForUnRegisteredAndOverLimit() {
+        BonusService service = new BonusService();
+        long amount = 1_000_000_000;
+        boolean registered = false;
+        long expected = 500;
+
+        long actual = service.calculate(amount, registered);
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void checkNegativeForRegisteredAndUnderLimit() {
+        BonusService service = new BonusService();
+        long amount = -10_000;
+        boolean registered = true;
+        long expected = 0;
+
+        long actual = service.calculate(amount, registered);
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+
 }
