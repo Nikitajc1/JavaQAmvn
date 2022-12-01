@@ -1,67 +1,53 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import ru.netology.BonusService;
 
 
 public class BonuseServiceTest {
-    @Test
-    void shouldCalculateForRegisteredAndUnderLimit() {
+    @ParameterizedTest
+    @CsvFileSource(files = "src/test/resources/data.csv")
+    public void shouldCalculateForRegisteredAndUnderLimit(long amount, long expected, boolean registered) {
         BonusService service = new BonusService();
 
-        long amount = 1000;
-        boolean registered = true;
-        long expected = 30;
-
         long actual = service.calculate(amount, registered);
-
         Assertions.assertEquals(expected, actual);
     }
 
-    @Test
-    void shouldCalculateForRegisteredAndOverLimit() {
+    @ParameterizedTest
+    @CsvFileSource(files = "src/test/resources/data2.csv")
+    public void shouldCalculateForRegisteredAndOverLimit(long amount, long expected, boolean registered) {
         BonusService service = new BonusService();
-        long amount = 1_000_000;
-        boolean registered = true;
-        long expected = 500;
 
         long actual = service.calculate(amount, registered);
-
         Assertions.assertEquals(expected, actual);
     }
 
-    @Test
-    void shouldCalculateForUnRegisteredAndUnderLimit() {
+    @ParameterizedTest
+    @CsvFileSource(files = "src/test/resources/data3.csv")
+    public void shouldCalculateForUnRegisteredAndUnderLimit(long amount, long expected, boolean registered) {
         BonusService service = new BonusService();
-        long amount = 10_000;
-        boolean registered = false;
-        long expected = 100;
 
         long actual = service.calculate(amount, registered);
-
         Assertions.assertEquals(expected, actual);
     }
 
-    @Test
-    void shouldCalculateForUnRegisteredAndOverLimit() {
+    @ParameterizedTest
+    @CsvFileSource(files = "src/test/resources/data4.csv")
+    public void shouldCalculateForUnRegisteredAndOverLimit(long amount, long expected, boolean registered) {
         BonusService service = new BonusService();
-        long amount = 1_000_000_000;
-        boolean registered = false;
-        long expected = 500;
 
         long actual = service.calculate(amount, registered);
-
         Assertions.assertEquals(expected, actual);
     }
 
-    @Test
-    void checkNegativeForRegisteredAndUnderLimit() {
+    @ParameterizedTest
+    @CsvFileSource(files = "src/test/resources/data5.csv")
+     public void checkNegativeForRegisteredAndUnderLimit(long amount, long expected, boolean registered) {
         BonusService service = new BonusService();
-        long amount = -10_000;
-        boolean registered = true;
-        long expected = 0;
 
         long actual = service.calculate(amount, registered);
-
         Assertions.assertEquals(expected, actual);
     }
 
